@@ -1,28 +1,48 @@
-name: NodeJS with Webpack
+name: Build & Deploy (Webpack → GitHub Pages)
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [main]          # build + deploy on every push to main
   pull_request:
-    branches: [ "main" ]
+    branches: [main]          # build (only) on PRs
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
-        node-version: [18.x, 20.x, 22.x]
+        node-version: [20]    # drop old versions or add more if you like
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build with Webpack
+        run: npm run build     # must output to "dist/"
+
+      # ──────────────── publish artefact for Pages ────────────────
+      - name: Upload static site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist           # ⇐ folder produced by the build step
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write             # allow this job to publish
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
 
     steps:
-    - uses: actions/checkout@v4
-
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
-
-    - name: Build
-      run: |
-        npm install
-        npm run build
+      - name: Deploy to GitHub Pages
+        id: deploy
+        uses: actions/deploy-pages@v4
