@@ -16,6 +16,11 @@
     "react-pdf": "^7.6.0",
     "react-swipeable": "^7.0.2"
   },
+
+  "scripts": {
+  "build": "webpack --config webpack.config.js"
+},
+  
   "devDependencies": {
     "@eslint/js": "^9.9.1",
     "@types/react": "^18.3.5",
