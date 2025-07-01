@@ -1,0 +1,4 @@
+/* src/viewport-fallback.css */
+@supports not (height: 100dvh) {
+  .min-h-dvh { min-height: 100vh; }
+}
