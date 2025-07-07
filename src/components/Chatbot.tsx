@@ -12,6 +12,7 @@ export const Chatbot: React.FC = () => {
   const [isStreaming, setIsStreaming] = useState(false);
   const [currentStreamingId, setCurrentStreamingId] = useState<string>();
   const [showKeyboard, setShowKeyboard] = useState(false);
+  const [threadId, setThreadId] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // auto-scroll on new message
@@ -21,11 +22,31 @@ export const Chatbot: React.FC = () => {
 
   const generateId = () => Math.random().toString(36).substr(2, 9);
 
+  // Create a new thread when component mounts
+  useEffect(() => {
+    const createThread = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/create-thread', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setThreadId(data.thread_id);
+        }
+      } catch (error) {
+        console.error('Failed to create thread:', error);
+        // Continue without thread ID - backend will create one
+      }
+    };
+    createThread();
+  }, []);
+
   const handleSend = async (userMessage: string) => {
     if (isStreaming) return;
     setShowKeyboard(false);
 
-    // append user
+    // append user message
     const userMsg: Message = {
       id: generateId(),
       sender: 'user',
@@ -44,62 +65,94 @@ export const Chatbot: React.FC = () => {
     setCurrentStreamingId(thinkingId);
 
     try {
-      const res = await fetch('http://localhost:5000/chat', {
+      const requestBody = {
+        message: userMessage,
+        ...(threadId && { thread_id: threadId })
+      };
+
+      const res = await fetch('http://localhost:5000/chat-plain', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: userMessage }),
+        body: JSON.stringify(requestBody),
       });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      if (!res.body) throw new Error('ReadableStream not supported');
+
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+      }
+
+      if (!res.body) {
+        throw new Error('ReadableStream not supported');
+      }
 
       const reader = res.body.getReader();
       const decoder = new TextDecoder();
       let botText = '';
+      let buffer = '';
 
       while (true) {
         const { value, done } = await reader.read();
         if (done) break;
-        const chunk = decoder.decode(value, { stream: true });
-        for (const line of chunk.split('\n')) {
-          const t = line.trim();
-          if (!t) continue;
-          if (t.startsWith('data:')) {
-            const data = t.slice(6);
-            if (data === '[DONE]') break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
+        buffer = lines.pop() || ''; // Keep incomplete line in buffer
+
+        for (const line of lines) {
+          const trimmedLine = line.trim();
+          if (!trimmedLine) continue;
+
+          if (trimmedLine.startsWith('data: ')) {
+            const data = trimmedLine.slice(6); // Remove 'data: ' prefix
+            
+            if (data === '[DONE]') {
+              // Stream completed
+              break;
+            }
+
+            // Try to parse as JSON first (for structured responses)
             try {
-              const p = JSON.parse(data);
-              botText += p.content ?? p.delta?.content ?? p.text ?? data;
-            } catch {
+              const parsed = JSON.parse(data);
+              if (parsed.type === 'content' && parsed.data) {
+                botText += parsed.data;
+              } else if (parsed.type === 'error') {
+                throw new Error(parsed.data);
+              } else if (parsed.type === 'done') {
+                break;
+              }
+            } catch (parseError) {
+              // If not JSON, treat as plain text
               botText += data;
             }
-          } else if (!t.startsWith('event:') && !t.startsWith('id:')) {
-            botText += t;
+
+            // Update the message with current accumulated text
+            setMessages(prev =>
+              prev.map(m =>
+                m.id === thinkingId ? { ...m, text: botText } : m
+              )
+            );
           }
-          setMessages(prev =>
-            prev.map(m =>
-              m.id === thinkingId ? { ...m, text: botText } : m
-            )
-          );
         }
       }
 
+      // Handle case where no content was streamed
       if (!botText.trim()) {
         setMessages(prev =>
           prev.map(m =>
             m.id === thinkingId
-              ? { ...m, text: "I couldn't generate a response." }
+              ? { ...m, text: "I couldn't generate a response. Please try again." }
               : m
           )
         );
       }
+
     } catch (err) {
-      console.error(err);
+      console.error('Chat error:', err);
       setMessages(prev =>
         prev.map(m =>
-          m.id === currentStreamingId
+          m.id === thinkingId
             ? { 
                 ...m,
-                text: `Error: ${err instanceof Error ? err.message : 'Unknown'}.`
+                text: `Error: ${err instanceof Error ? err.message : 'Unknown error occurred'}. Please try again.`
               }
             : m
         )
@@ -121,6 +174,23 @@ export const Chatbot: React.FC = () => {
     setIsStreaming(false);
     setCurrentStreamingId(undefined);
     setShowKeyboard(false);
+    
+    // Create a new thread for fresh conversation
+    const createNewThread = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/create-thread', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setThreadId(data.thread_id);
+        }
+      } catch (error) {
+        console.error('Failed to create new thread:', error);
+      }
+    };
+    createNewThread();
   };
 
   // hide keyboard if you click the message area
@@ -149,7 +219,10 @@ export const Chatbot: React.FC = () => {
           </div>
           <div>
             <h1 className="text-xl font-bold text-gray-800">AI Assistant</h1>
-            <p className="text-gray-600 text-xs">Your intelligent conversation partner</p>
+            <p className="text-gray-600 text-xs">
+              Your intelligent conversation partner
+              {threadId && <span className="ml-2 opacity-50">({threadId.slice(0, 8)}...)</span>}
+            </p>
           </div>
         </div>
       </div>
