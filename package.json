@@ -3,18 +3,15 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": "https://anandsgunti.github.io/EDetail-v1.0/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "start": "vite preview --host 0.0.0.0 --port 8080",
-    "deploy": "npm run build && gh-pages -d dist",
-    "homepage": "https://anandsgunti.github.io/EDetail-v1.0/",
-
+    "deploy": "npm run build && gh-pages -d dist"
   },
-
-
   "dependencies": {
     "lucide-react": "^0.344.0",
     "react": "^18.3.1",
