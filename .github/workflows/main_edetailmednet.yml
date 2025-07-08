@@ -2,7 +2,8 @@ name: Build and deploy React app to Azure Web App - Edetailmednet
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
@@ -14,22 +15,27 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Use Node.js 22.x
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '22.x'
 
-      - name: Install dependencies & build
+      - name: Install, build & test
         run: |
           npm ci
           npm run build
           npm run test --if-present
 
-      - name: Upload dist folder for deployment
+      - name: Zip dist for deployment
+        run: |
+          cd dist
+          zip -r ../react-app.zip .
+
+      - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
           name: react-dist
-          path: dist
+          path: react-app.zip
 
   deploy:
     runs-on: ubuntu-latest
@@ -39,7 +45,7 @@ jobs:
       contents: read
 
     steps:
-      - name: Download dist folder
+      - name: Download build artifact
         uses: actions/download-artifact@v4
         with:
           name: react-dist
@@ -51,9 +57,9 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_3CCA8748C74E41348DCF1D6B10C90036 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_A0F6CBFC853B40B9BB19B2315AED168B }}
 
-      - name: Deploy dist folder to Azure Web App
+      - name: Deploy dist to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'Edetailmednet'
           slot-name: 'Production'
-          package: dist
+          package: react-app.zip
