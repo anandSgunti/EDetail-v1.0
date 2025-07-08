@@ -5,6 +5,12 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+    
+permissions:
+  contents: write    # allow read/write of repo contents
+  pages: write       # if you’re deploying GitHub Pages
+  id-token: write    # only if you’re using OIDC
+
 
 jobs:
   build-and-deploy:
