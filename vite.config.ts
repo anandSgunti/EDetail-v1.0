@@ -1,7 +1,8 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
 export default defineConfig({
-  base: './',    // ← makes all asset URLs relative to index.html
+  // If this is a project page under your org:
+  base: '/EDetail-v1.0/',
   plugins: [react()],
-})
+});
