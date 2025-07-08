@@ -1,11 +1,7 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
 
-// https://vitejs.dev/config/
 export default defineConfig({
+  base: './',    // ← makes all asset URLs relative to index.html
   plugins: [react()],
-  base: process.env.NODE_ENV === 'production' ? '/EDetail-v1.0/' : '/',
-  optimizeDeps: {
-    exclude: ['lucide-react'],
-  },
-});
+})
