@@ -72,15 +72,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({ onPromptSelect }) => {
           </div>
         </div>
 
-        {/* Welcome Message */}
-        <h2 className="text-2xl font-bold text-gray-800 mb-4">
-          Welcome to Edetail AI Assistant!
-        </h2>
-        <p className="text-gray-600 mb-8 leading-relaxed">
-          I'm here to help you with questions related to your documents and engaging conversations. 
-          Choose a prompt below to get started, or type your own message.
-        </p>
-
+        
         {/* Preloaded Prompts */}
         <div className="mb-8">
           <h3 className="text-lg font-semibold text-gray-800 mb-4">Quick Start Prompts</h3>

@@ -44,7 +44,7 @@ export const Chatbot: React.FC = () => {
     setCurrentStreamingId(thinkingId);
 
     try {
-      const res = await fetch('http://localhost:5000/chat', {
+      const res = await fetch('https://edetail.azurewebsites.net/chat-plain', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: userMessage }),
