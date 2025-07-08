@@ -1,39 +1,57 @@
-name: Deploy React Vite App to Azure Web App - Edetailmednet
+name: Build and deploy React app to Azure Web App - Edetailmednet
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     permissions:
-      id-token: write
       contents: read
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Use Node.js 22.x
+        uses: actions/setup-node@v3
         with:
-          node-version: '20.x' # Node 20 is LTS, recommended version for Vite apps
+          node-version: '22.x'
 
-      - name: Install dependencies and build
+      - name: Install dependencies & build
         run: |
-          npm install
+          npm ci
           npm run build
+          npm run test --if-present
 
-      - name: 'Login to Azure'
+      - name: Upload dist folder for deployment
+        uses: actions/upload-artifact@v4
+        with:
+          name: react-dist
+          path: dist
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Download dist folder
+        uses: actions/download-artifact@v4
+        with:
+          name: react-dist
+
+      - name: Login to Azure
         uses: azure/login@v2
         with:
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_A542708D9B91455FA7A360F1DA598405 }}
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_3CCA8748C74E41348DCF1D6B10C90036 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_A0F6CBFC853B40B9BB19B2315AED168B }}
 
-      - name: 'Deploy dist to Azure Web App'
+      - name: Deploy dist folder to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'Edetailmednet'
