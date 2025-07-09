@@ -21,21 +21,10 @@ export const SplitLayout: React.FC = () => {
 
   return (
     <div className="h-screen flex flex-col bg-gray-100 relative">
-      {/* ——— PDF Panel ——— */}
       <div className="flex flex-col h-full">
-        <div className="p-4 bg-white border-b border-gray-300 z-10">
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Upload PDF
-          </label>
-          <input
-            type="file"
-            accept="application/pdf"
-            onChange={handleFileChange}
-            className="block w-full text-sm text-gray-600"
-          />
-        </div>
+        
         <div className="flex-1 overflow-hidden">
-          <PDFViewer file={pdfFile ?? undefined} />
+          <PDFViewer />
         </div>
       </div>
 
