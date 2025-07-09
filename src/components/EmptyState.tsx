@@ -46,7 +46,7 @@ const PRELOADED_PROMPTS = [
     icon: Settings,
     title: "AR+AI",
     prompt: "What are the adverse reactions associated with RYBREVANT® when used in combination with LAZCLUZE™?",
-    color: "from-[#FF7F41]/85 to-[#FF7F41]/85"
+    color: "from-[#DC4405]/85 to-[#DC4405]/85"
   },
 
 ];
