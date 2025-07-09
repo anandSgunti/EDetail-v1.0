@@ -33,7 +33,7 @@ export const PDFViewer: React.FC = () => {
       window.adobeDCView.previewFile(
         {
           content: { location: { url: PDF_URL } },
-          metaData: { fileName: PDF_URL.split("/").pop() || "document.pdf" },
+          metaData: { fileName:  " " },
         },
         {
           defaultViewMode: "FIT_PAGE",
