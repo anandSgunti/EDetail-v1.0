@@ -36,7 +36,7 @@ export const PDFViewer: React.FC = () => {
           metaData: { fileName:  " " },
         },
         {
-         nableSearchAPIs: true, showThumbnails: false, showAnnotationTools: false, showBookmarks: false, showZoomControl: false, defaultViewMode: " SINGLE_PAGE",embedMode: "FULL_WINDOW", showAnnotationTools: false, showFullScreenViewButton: true}
+         enableSearchAPIs: true, showThumbnails: false, showAnnotationTools: false, showBookmarks: false, showZoomControl: false, defaultViewMode: " SINGLE_PAGE",embedMode: "FULL_WINDOW", showAnnotationTools: false, showFullScreenViewButton: true}
         }
       );
     };
