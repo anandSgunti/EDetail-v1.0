@@ -54,7 +54,7 @@ export const PDFViewer: React.FC<PDFViewerProps> = ({ file }) => {
           window.adobeDCView.previewFile(
             {
               content: {location: {url: "https://pdfedetail.blob.core.windows.net/edetail/3569%20ELCC%20Roaming%20iPAD%20v4.0.pdf"}},
-              metaData: { fileName: "" },
+              metaData: { fileName: "t" },
             },{enableSearchAPIs: true, showThumbnails: false, showAnnotationTools: false, showBookmarks: false, showZoomControl: false ,embedMode: "FULL_WINDOW", showAnnotationTools: false, showFullScreenViewButton: true});
         
         };
