@@ -8,7 +8,7 @@ declare global {
   }
 }
 
-const ADOBE_CLIENT_ID = "edf9c606d17a43cf98d169ff057c87d5";
+const ADOBE_CLIENT_ID = "2c960dfd8e7a4c3e8067f02ef1d6acc1";
 // ← Your direct PDF URL goes here:
 const PDF_URL = "https://pdfedetail.blob.core.windows.net/edetail/3569%20ELCC%20Roaming%20iPAD%20v4.0.pdf";
 
