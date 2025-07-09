@@ -11,36 +11,44 @@ const PRELOADED_PROMPTS = [
     icon: FileText,
     title: "Mechanisms of Action",
     prompt: "What are the mechanisms of action for Rybrevant?",
-    color: "from-blue-500 to-blue-600"
+    color: "from-[#279989]/85 to-[#279989]/85"
   },
   {
     id: 2,
     icon: HelpCircle,
     title: "Primary Endpoint",
     prompt: "What is the primary endpoint of MARIPOSA-2?",
-    color: "from-green-500 to-green-600"
+    color: "from-[#279989]/85 to-[#279989]/85"
   },
   {
     id: 3,
     icon: Lightbulb,
     title: "Dosing Regimen",
     prompt: "What is the dosing regimen for RYBREVANT® as a monotherapy for advanced NSCLC?",
-    color: "from-purple-500 to-purple-600"
+    color: "from-[#279989]/85 to-[#279989]/85"
   },
   {
     id: 4,
     icon: Search,
     title: "Formulation and Efficacy",
     prompt: "How effective is RYBREVANT® combined with carboplatin and pemetrexed compared to carboplatin and pemetrexed alone?",
-    color: "from-orange-500 to-orange-600"
+    color: "from-[#279989]/85 to-[#279989]/85"
   },
   {
     id: 5,
     icon: Settings,
     title: "Adverse Reactions",
     prompt: "What are the adverse reactions associated with RYBREVANT® when used in combination with LAZCLUZE™?",
-    color: "from-pink-500 to-pink-600"
-  }
+    color: "from-[#279989]/85 to-[#279989]/85"
+  },
+  {
+    id: 6,
+    icon: Settings,
+    title: "AR+AI",
+    prompt: "What are the adverse reactions associated with RYBREVANT® when used in combination with LAZCLUZE™?",
+    color: "from-[#FF7F41]/85 to-[#FF7F41]/85"
+  },
+
 ];
 
 export const EmptyState: React.FC<EmptyStateProps> = ({ onPromptSelect }) => {
@@ -55,48 +63,59 @@ export const EmptyState: React.FC<EmptyStateProps> = ({ onPromptSelect }) => {
       <div className="text-center max-w-2xl w-full">
         {/* Animated Icon */}
         <div className="relative mb-8">
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full animate-ping opacity-20 w-20 h-20 mx-auto"></div>
-          <div className="relative bg-gradient-to-r from-blue-500 to-purple-500 p-5 rounded-full w-20 h-20 mx-auto shadow-lg">
+          {/* <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full animate-ping opacity-20 w-20 h-20 mx-auto"></div> */}
+          {/* <div className="relative bg-gradient-to-r from-blue-500 to-purple-500 p-5 rounded-full w-20 h-20 mx-auto shadow-lg">
             <MessageCircle className="w-10 h-10 text-white mx-auto animate-pulse" />
-          </div>
+          </div> */}
                      
           {/* Floating decorative elements */}
-          <div className="absolute -top-2 -right-2">
+          {/* <div className="absolute -top-2 -right-2">
             <Sparkles className="w-6 h-6 text-yellow-400 animate-spin" style={{ animationDuration: '3s' }} />
-          </div>
-          <div className="absolute -bottom-2 -left-2">
+          </div> */}
+          {/* <div className="absolute -bottom-2 -left-2">
             <Zap className="w-5 h-5 text-blue-400 animate-bounce" style={{ animationDelay: '0.5s' }} />
-          </div>
-          <div className="absolute top-1/2 -left-8">
+          </div> */}
+          {/* <div className="absolute top-1/2 -left-8">
             <Heart className="w-4 h-4 text-pink-400 animate-pulse" style={{ animationDelay: '1s' }} />
-          </div>
+          </div> */}
         </div>
 
         
         {/* Preloaded Prompts */}
         <div className="mb-8">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">Quick Start Prompts</h3>
+          {/* <h3 className="text-lg font-semibold text-gray-800 mb-4">Quick Start Prompts</h3> */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {PRELOADED_PROMPTS.map((prompt) => {
-              const IconComponent = prompt.icon;
+              //const IconComponent = prompt.icon;
               return (
                 <button
                   key={prompt.id}
                   onClick={() => handlePromptClick(prompt.prompt)}
-                  className="group bg-white/40 backdrop-blur-sm p-4 rounded-xl border border-white/30 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 hover:bg-white/60 text-left"
+                  className={`
+                    group bg-gradient-to-r ${prompt.color}   
+                    backdrop-blur-sm
+                    p-4
+                    rounded-xl
+                    border border-white/30
+                    shadow-lg
+                    hover:shadow-xl
+                    transition-all duration-300
+                    hover:scale-105
+                    hover:bg-gradient-to-r ${prompt.color}      /* 60% opacity on hover */
+                    text-center `}
                 >
-                  <div className={`bg-gradient-to-r ${prompt.color} w-10 h-10 rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300`}>
+                  {/* <div className={`bg-gradient-to-r ${prompt.color} w-10 h-10 rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300`}>
                     <IconComponent className="w-5 h-5 text-white" />
-                  </div>
-                  <h4 className="font-semibold text-gray-800 text-sm mb-2 group-hover:text-gray-900">
+                  </div> */}
+                  <h4 className="font-semibold text-white text-sm mb-2 group-hover:text-gray-900">
                     {prompt.title}
                   </h4>
-                  <p className="text-gray-600 text-xs leading-relaxed group-hover:text-gray-700">
+                  {/* <p className="text-gray-600 text-xs leading-relaxed group-hover:text-gray-700">
                     {prompt.prompt.length > 80 
                       ? `${prompt.prompt.substring(0, 80)}...` 
                       : prompt.prompt
                     }
-                  </p>
+                  </p> */}
                 </button>
               );
             })}
