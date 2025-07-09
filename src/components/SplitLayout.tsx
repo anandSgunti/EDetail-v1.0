@@ -57,7 +57,7 @@ export const SplitLayout: React.FC = () => {
           <div className="flex items-center">
             <button
               onClick={toggleChatbot}
-              className=""bg-[#FF7F41] text-white p-3 rounded-l-xl shadow-lg hover:shadow-xl transition duration-300 hover:scale-105 flex items-center space-x-2"
+              className="bg-[#FF7F41] text-white p-3 rounded-l-xl shadow-lg hover:shadow-xl transition duration-300 hover:scale-105 flex items-center space-x-2"
               title="Open AI Assistant"
             >
               <MessageCircle size={20} className="animate-pulse" />
