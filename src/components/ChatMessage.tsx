@@ -31,7 +31,7 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message, isStreaming =
         flex flex-col gap-1 max-w-[70%]
         ${isUser ? 'items-end' : 'items-start'}
       `}>
-        {/* Sender Label */}
+        {/* Sender Label user and assistant */}
         <span className="text-xs text-gray-500 px-1">
           {isUser ? 'You' : 'Assistant'}
         </span>
@@ -43,8 +43,8 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message, isStreaming =
           <div className={`
             relative px-4 py-3 rounded-2xl shadow-sm
             ${isUser 
-              ? 'bg-blue-500 text-white rounded-br-md' 
-              : 'bg-white border border-gray-200 text-gray-800 rounded-bl-md'
+              ? 'bg-[#DC4405]  text-white rounded-br-md' 
+              : 'bg-[#279989]  border border-gray-200 text-white rounded-bl-md'
             }
             ${isStreaming && isBot ? 'animate-pulse' : ''}
           `}>
