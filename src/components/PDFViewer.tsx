@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef } from "react";
 
 // Extend the Window interface for TypeScript
@@ -33,10 +34,14 @@ export const PDFViewer: React.FC = () => {
       window.adobeDCView.previewFile(
         {
           content: { location: { url: PDF_URL } },
-          metaData: { fileName:  " " },
+          metaData: { fileName: PDF_URL.split("/").pop() || "document.pdf" },
         },
         {
-         enableSearchAPIs: true, showThumbnails: false, showAnnotationTools: false, showBookmarks: false, showZoomControl: false, defaultViewMode: " SINGLE_PAGE",embedMode: "FULL_WINDOW", showAnnotationTools: false, showFullScreenViewButton: true}
+          defaultViewMode: "FIT_PAGE",
+          showAnnotationTools: false,
+          showFullScreenViewButton: false, 
+          enableSearchAPIs: true, showThumbnails: false,
+          showBookmarks: false, showZoomControl: false,embedMode: "FULL_WINDOW",
         }
       );
     };
