@@ -8,7 +8,7 @@ declare global {
   }
 }
 
-const ADOBE_CLIENT_ID = "edf9c606d17a43cf98d169ff057c87d5"; // Replace with your Adobe client ID
+const ADOBE_CLIENT_ID = "957c5780cb6d4371b17ecce11a885e81"; // Replace with your Adobe client ID
 
 interface PDFViewerProps {
   file?: File;
