@@ -55,7 +55,7 @@ export const PDFViewer: React.FC<PDFViewerProps> = ({ file }) => {
             {
               content: { promise: filePromise },
               metaData: { fileName: file.name },
-            },{defaultViewMode: "FIT_PAGE", showAnnotationTools: false, showFullScreenViewButton: true});
+            },{embedMode: "FULL_WINDOW", showAnnotationTools: false, showFullScreenViewButton: true});
         
         };
         reader.readAsArrayBuffer(file);
