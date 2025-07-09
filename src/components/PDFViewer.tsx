@@ -8,62 +8,50 @@ declare global {
   }
 }
 
-const ADOBE_CLIENT_ID = "2c960dfd8e7a4c3e8067f02ef1d6acc1"; // Replace with your Adobe client ID
+const ADOBE_CLIENT_ID = "edf9c606d17a43cf98d169ff057c87d5";
+// ← Your direct PDF URL goes here:
+const PDF_URL = "https://pdfedetail.blob.core.windows.net/edetail/3569%20ELCC%20Roaming%20iPAD%20v4.0.pdf";
 
-interface PDFViewerProps {
-  file?: File;
-}
-
-export const PDFViewer: React.FC<PDFViewerProps> = ({ file }) => {
+export const PDFViewer: React.FC = () => {
   const viewerRef = useRef<HTMLDivElement>(null);
 
-  // Load the Adobe SDK script once
+  // Load the Adobe View SDK once, then initialize
   useEffect(() => {
+    const initViewer = () => {
+      if (!viewerRef.current || !window.AdobeDC) return;
+
+      // Tear down any previous instance
+      window.adobeDCView = null;
+
+      // Create the AdobeDC.View instance
+      window.adobeDCView = new window.AdobeDC.View({
+        clientId: ADOBE_CLIENT_ID,
+        divId: "adobe-dc-view",
+      });
+
+      // Preview the PDF from your hard-coded URL
+      window.adobeDCView.previewFile(
+        {
+          content: { location: { url: PDF_URL } },
+          metaData: { fileName: PDF_URL.split("/").pop() || "document.pdf" },
+        },
+        {
+          defaultViewMode: "FIT_PAGE",
+          showAnnotationTools: false,
+          showFullScreenViewButton: false,
+        }
+      );
+    };
+
     if (!window.AdobeDC) {
       const script = document.createElement("script");
       script.src = "https://acrobatservices.adobe.com/view-sdk/viewer.js";
-      script.onload = () => {
-        // No-op; actual rendering handled in next effect
-      };
+      script.onload = initViewer;
       document.body.appendChild(script);
+    } else {
+      initViewer();
     }
-  }, []);
-
-  // Render the PDF when file changes
-  useEffect(() => {
-    if (!file) return;
-
-    // Wait until SDK is loaded
-    const interval = setInterval(() => {
-      if (window.AdobeDC && viewerRef.current) {
-        clearInterval(interval);
-
-        // Clean up previous viewer instance if needed
-        if (window.adobeDCView) {
-          window.adobeDCView = null;
-        }
-
-        window.adobeDCView = new window.AdobeDC.View({
-          clientId: ADOBE_CLIENT_ID,
-          divId: "adobe-dc-view",
-        });
-
-        const reader = new FileReader();
-        reader.onloadend = (e) => {
-          const filePromise = Promise.resolve(e.target?.result);
-          window.adobeDCView.previewFile(
-            {
-              content: {location: {url: "https://pdfedetail.blob.core.windows.net/edetail/3569%20ELCC%20Roaming%20iPAD%20v4.0.pdf"}},
-              metaData: { fileName: "t" },
-            },{enableSearchAPIs: true, showThumbnails: false, showAnnotationTools: false, showBookmarks: false, showZoomControl: false ,embedMode: "FULL_WINDOW", showAnnotationTools: false, showFullScreenViewButton: true});
-        
-        };
-        reader.readAsArrayBuffer(file);
-      }
-    }, 100);
-
-    return () => clearInterval(interval);
-  }, [file]);
+  }, []); // empty deps → run once on mount
 
   return (
     <div
