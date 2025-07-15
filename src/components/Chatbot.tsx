@@ -137,19 +137,20 @@ export const Chatbot: React.FC = () => {
           {messages.length > 0 && (
             <button
               onClick={handleBackToPrompts}
-              className="flex-shrink-0 p-2 rounded-lg bg-white/60 hover:bg-white/80 transition duration-200 group"
+              className="flex-shrink-0 p-2 rounded-lg bg-white/60 hover:bg-[#FF7F41] transition duration-200 group"
               title="Back to prompts"
             >
-              <ArrowLeft size={18} className="text-gray-600 group-hover:text-gray-800" />
+              <ArrowLeft size={18} className="text-[#FF7F41] group-hover:text-gray-800" />
             </button>
           )}
           
-          <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center shadow-lg">
-            <span className="text-white font-bold text-sm">AI</span>
-          </div>
+          <div className="w-8 h-8  rounded-lg flex items-center justify-center shadow-lg">
+           <img src="Logo.png" alt="AI" className="w-8 h-8 object-contain" />
+        </div>
+
           <div>
-            <h1 className="text-xl font-bold text-gray-800">AI Assistant</h1>
-            <p className="text-gray-600 text-xs">Your intelligent conversation partner</p>
+            <h1 className="text-xl font-bold text-[#DC4405]">AI Assistant</h1>
+            <p className="text-[#279989] font-bold text-xs">Your intelligent conversation partner</p>
           </div>
         </div>
       </div>
