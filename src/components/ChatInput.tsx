@@ -108,7 +108,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
               className={`flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center transition transform ${
                 showKeyboard
                   ? 'bg-blue-500/90 text-white shadow-lg'
-                  : 'bg-white/60 text-gray-600 hover:bg-white/80'
+                  : 'bg-white text-[#279989] hover:bg-[#279989] hover:text-white'
               } backdrop-blur-sm border border-white/30`}
               title="Toggle Virtual Keyboard"
             >
@@ -122,7 +122,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
               className={`flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center transition transform ${
                 disabled || !input.trim()
                   ? 'bg-white/30 text-gray-400 cursor-not-allowed'
-                  : 'bg-blue-500/90 text-white hover:bg-blue-600 active:scale-95 hover:shadow-lg'
+                  : 'bg-white text-[#279989] hover:bg-[#279989] hover:text-white active:scale-95 hover:shadow-lg'
               } backdrop-blur-sm`}
             >
               {isStreaming
