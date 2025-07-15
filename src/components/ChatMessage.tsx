@@ -19,8 +19,8 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message, isStreaming =
       <div className={`
         flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center
         ${isUser 
-          ? 'bg-blue-500 text-white' 
-          : 'bg-gray-100 text-gray-600 border border-gray-200'
+          ? 'bg-[#DC4405]/80 text-white' 
+          : 'bg-[#279989] text-white'
         }
       `}>
         {isUser ? <User size={16} /> : <Bot size={16} />}
@@ -32,7 +32,7 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message, isStreaming =
         ${isUser ? 'items-end' : 'items-start'}
       `}>
         {/* Sender Label user and assistant */}
-        <span className="text-xs text-gray-500 px-1">
+        <span className="text-xs text-black  px-1">
           {isUser ? 'You' : 'Assistant'}
         </span>
 
@@ -43,8 +43,8 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message, isStreaming =
           <div className={`
             relative px-4 py-3 rounded-2xl shadow-sm
             ${isUser 
-              ? 'bg-[#DC4405]  text-white rounded-br-md' 
-              : 'bg-[#279989]  border border-gray-200 text-white rounded-bl-md'
+              ? 'bg-gray-200  text-[#DC4405]  rounded-br-md' 
+              : 'bg-gray-200  border border-gray-200 text-[#279989] rounded-bl-md'
             }
             ${isStreaming && isBot ? 'animate-pulse' : ''}
           `}>
@@ -59,7 +59,7 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message, isStreaming =
 
         {/* Timestamp */}
         {!isThinking && (
-          <span className="text-xs text-gray-400 px-1">
+          <span className="text-xs text-[#75787B] px-1">
             {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
           </span>
         )}
