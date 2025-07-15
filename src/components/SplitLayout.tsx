@@ -1,30 +1,31 @@
 // src/components/SplitLayout.tsx
 
 import React, { useState } from 'react';
-import { PDFViewer } from './PDFViewer';
+// import { PDFViewer } from './PDFViewer';
 import { Chatbot } from './Chatbot';
+import { ExternalViewer } from './external';
 import { MessageCircle, ChevronLeft, X } from 'lucide-react';
 
 export const SplitLayout: React.FC = () => {
   const [chatbotVisible, setChatbotVisible] = useState(false);
-  const [pdfFile, setPdfFile] = useState<File | null>(null);
+  // const [pdfFile, setPdfFile] = useState<File | null>(null);
 
   const toggleChatbot = () => {
     setChatbotVisible(v => !v);
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files?.[0]) {
-      setPdfFile(e.target.files[0]);
-    }
-  };
+  // const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (e.target.files?.[0]) {
+  //     setPdfFile(e.target.files[0]);
+  //   }
+  // };
 
   return (
     <div className="h-screen flex flex-col bg-gray-100 relative">
       <div className="flex flex-col h-full">
         
         <div className="flex-1 overflow-hidden">
-          <PDFViewer />
+          <ExternalViewer />
         </div>
       </div>
 
@@ -45,7 +46,7 @@ export const SplitLayout: React.FC = () => {
               className="absolute top-4 right-4 p-2 bg-white/60 backdrop-blur-sm rounded-lg shadow-lg hover:shadow-xl border border-white/30 transition duration-200 hover:bg-white/80 z-10"
               title="Close Chatbot"
             >
-              <X size={16} className="text-gray-600" />
+              <X size={16} className="text-[#279989]" />
             </button>
           </div>
         </div>
