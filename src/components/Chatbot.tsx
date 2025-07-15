@@ -145,7 +145,8 @@ export const Chatbot: React.FC = () => {
           )}
           
           <div className="w-8 h-8  rounded-lg flex items-center justify-center shadow-lg">
-           <img src="./Logo.png" alt="AI" className="w-8 h-8 object-contain" />
+           <img src="https://pdfedetail.blob.core.windows.net/edetail/Logo.png" alt="AI" />
+ 
         </div>
 
           <div>
