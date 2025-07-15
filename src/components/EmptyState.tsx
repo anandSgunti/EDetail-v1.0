@@ -1,5 +1,5 @@
 import React from 'react';
-import { MessageCircle, Sparkles, Zap, Heart, FileText, HelpCircle, Lightbulb, Search, Settings } from 'lucide-react';
+import { FileText, HelpCircle, Lightbulb, Search, Settings } from 'lucide-react';
 
 interface EmptyStateProps {
   onPromptSelect?: (prompt: string) => void;
@@ -44,7 +44,7 @@ const PRELOADED_PROMPTS = [
   {
     id: 6,
     icon: Settings,
-    title: "AR+AI",
+    title: "AR",
     prompt: "What are the adverse reactions associated with RYBREVANT® when used in combination with LAZCLUZE™?",
     color: "from-[#DC4405]/85 to-[#DC4405]/85"
   },
@@ -80,17 +80,26 @@ export const EmptyState: React.FC<EmptyStateProps> = ({ onPromptSelect }) => {
           </div> */}
         </div>
 
-        
+
         {/* Preloaded Prompts */}
         <div className="mb-8">
           {/* <h3 className="text-lg font-semibold text-gray-800 mb-4">Quick Start Prompts</h3> */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {PRELOADED_PROMPTS.map((prompt) => {
+                  const isLast = prompt.id === 6;
+
               //const IconComponent = prompt.icon;
               return (
                 <button
                   key={prompt.id}
-                  onClick={() => handlePromptClick(prompt.prompt)}
+                  onClick={() => {
+              if (isLast) {
+                // open your URL in a new tab This is for the AR integration opnes in new tab 
+                window.open('https://google.com', '_blank', 'noopener');
+              } else {
+                handlePromptClick(prompt.prompt);
+              }
+            }}
                   className={`
                     group bg-gradient-to-r ${prompt.color}   
                     backdrop-blur-sm
