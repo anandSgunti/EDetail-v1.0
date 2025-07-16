@@ -59,7 +59,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({ onPromptSelect }) => {
 
   const openPopup = () => {
     const popup = window.open(
-      'https://anandsgunti.github.io/AREXP/,
+      'https://anandsgunti.github.io/AREXP/',
       'ARIntegrationPopup',
       'width=900,height=700,scrollbars=yes,resizable=yes,location=no,menubar=no,toolbar=no,status=no,left=' + 
       (screen.width / 2 - 450) + ',top=' + (screen.height / 2 - 350)
