@@ -48,13 +48,35 @@ const PRELOADED_PROMPTS = [
     prompt: "What are the adverse reactions associated with RYBREVANT® when used in combination with LAZCLUZE™?",
     color: "from-[#DC4405]/85 to-[#DC4405]/85"
   },
-
 ];
 
 export const EmptyState: React.FC<EmptyStateProps> = ({ onPromptSelect }) => {
   const handlePromptClick = (prompt: string) => {
     if (onPromptSelect) {
       onPromptSelect(prompt);
+    }
+  };
+
+  const openPopup = () => {
+    const popup = window.open(
+      'https://anandsgunti.github.io/AREXP/,
+      'ARIntegrationPopup',
+      'width=900,height=700,scrollbars=yes,resizable=yes,location=no,menubar=no,toolbar=no,status=no,left=' + 
+      (screen.width / 2 - 450) + ',top=' + (screen.height / 2 - 350)
+    );
+
+    // Focus the popup window
+    if (popup) {
+      popup.focus();
+      
+      // Optional: Add a close button or auto-close functionality
+      // You can also listen for popup close events
+      const checkClosed = setInterval(() => {
+        if (popup.closed) {
+          clearInterval(checkClosed);
+          console.log('Popup was closed');
+        }
+      }, 1000);
     }
   };
 
@@ -80,26 +102,25 @@ export const EmptyState: React.FC<EmptyStateProps> = ({ onPromptSelect }) => {
           </div> */}
         </div>
 
-
         {/* Preloaded Prompts */}
         <div className="mb-8">
           {/* <h3 className="text-lg font-semibold text-gray-800 mb-4">Quick Start Prompts</h3> */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {PRELOADED_PROMPTS.map((prompt) => {
-                  const isLast = prompt.id === 6;
+              const isLast = prompt.id === 6;
 
               //const IconComponent = prompt.icon;
               return (
                 <button
                   key={prompt.id}
                   onClick={() => {
-              if (isLast) {
-                // open your URL in a new tab This is for the AR integration opnes in new tab 
-                window.open('https://google.com', '_blank', 'noopener');
-              } else {
-                handlePromptClick(prompt.prompt);
-              }
-            }}
+                    if (isLast) {
+                      // Open AR integration in popup
+                      openPopup();
+                    } else {
+                      handlePromptClick(prompt.prompt);
+                    }
+                  }}
                   className={`
                     group bg-gradient-to-r ${prompt.color}   
                     backdrop-blur-sm
