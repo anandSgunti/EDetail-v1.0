@@ -8,10 +8,19 @@ import { MessageCircle, ChevronLeft, X } from 'lucide-react';
 
 export const SplitLayout: React.FC = () => {
   const [chatbotVisible, setChatbotVisible] = useState(false);
+  const [arUrl, setArUrl] = useState<string | null>(null);
   // const [pdfFile, setPdfFile] = useState<File | null>(null);
 
   const toggleChatbot = () => {
     setChatbotVisible(v => !v);
+  };
+
+  const handleArIntegration = (url: string) => {
+    setArUrl(url);
+  };
+
+  const handleBackToPdf = () => {
+    setArUrl(null);
   };
 
   // const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,7 +34,7 @@ export const SplitLayout: React.FC = () => {
       <div className="flex flex-col h-full">
         
         <div className="flex-1 overflow-hidden">
-          <ExternalViewer />
+          <ExternalViewer arUrl={arUrl} onBackToPdf={handleBackToPdf} />
         </div>
       </div>
 
@@ -40,7 +49,7 @@ export const SplitLayout: React.FC = () => {
 
           {/* Chatbot Container */}
           <div className="relative w-full max-w-md h-[90vh] transition duration-300">
-            <Chatbot />
+            <Chatbot onArIntegration={handleArIntegration} />
             <button
               onClick={toggleChatbot}
               className="absolute top-4 right-4 p-2 bg-white/60 backdrop-blur-sm rounded-lg shadow-lg hover:shadow-xl border border-white/30 transition duration-200 hover:bg-white/80 z-10"
