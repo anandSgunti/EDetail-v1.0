@@ -3,6 +3,7 @@ import { FileText, HelpCircle, Lightbulb, Search, Settings } from 'lucide-react'
 
 interface EmptyStateProps {
   onPromptSelect?: (prompt: string) => void;
+  onArIntegration?: () => void;
 }
 
 const PRELOADED_PROMPTS = [
@@ -50,35 +51,13 @@ const PRELOADED_PROMPTS = [
   },
 ];
 
-export const EmptyState: React.FC<EmptyStateProps> = ({ onPromptSelect }) => {
+export const EmptyState: React.FC<EmptyStateProps> = ({ onPromptSelect, onArIntegration }) => {
   const handlePromptClick = (prompt: string) => {
     if (onPromptSelect) {
       onPromptSelect(prompt);
     }
   };
 
-  const openPopup = () => {
-    const popup = window.open(
-      'https://anandsgunti.github.io/AREXP/',
-      'ARIntegrationPopup',
-      'width=900,height=700,scrollbars=yes,resizable=yes,location=no,menubar=no,toolbar=no,status=no,left=' + 
-      (screen.width / 2 - 450) + ',top=' + (screen.height / 2 - 350)
-    );
-
-    // Focus the popup window
-    if (popup) {
-      popup.focus();
-      
-      // Optional: Add a close button or auto-close functionality
-      // You can also listen for popup close events
-      const checkClosed = setInterval(() => {
-        if (popup.closed) {
-          clearInterval(checkClosed);
-          console.log('Popup was closed');
-        }
-      }, 1000);
-    }
-  };
 
   return (
     <div className="flex-1 flex items-center justify-center p-8">
@@ -115,8 +94,10 @@ export const EmptyState: React.FC<EmptyStateProps> = ({ onPromptSelect }) => {
                   key={prompt.id}
                   onClick={() => {
                     if (isLast) {
-                      // Open AR integration in popup
-                      openPopup();
+                      // Open AR integration in PDF viewer
+                      if (onArIntegration) {
+                        onArIntegration();
+                      }
                     } else {
                       handlePromptClick(prompt.prompt);
                     }
