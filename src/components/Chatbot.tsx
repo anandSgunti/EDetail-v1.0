@@ -7,7 +7,11 @@ import { EmptyState } from './EmptyState';
 import { Message } from '../types/chat';
 import { ArrowLeft } from 'lucide-react';
 
-export const Chatbot: React.FC = () => {
+interface ChatbotProps {
+  onArIntegration?: (url: string) => void;
+}
+
+export const Chatbot: React.FC<ChatbotProps> = ({ onArIntegration }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isStreaming, setIsStreaming] = useState(false);
   const [currentStreamingId, setCurrentStreamingId] = useState<string>();
@@ -115,6 +119,15 @@ export const Chatbot: React.FC = () => {
     handleSend(prompt);
   };
 
+  // Handle AR integration from EmptyState
+  const handleArIntegration = () => {
+    // Default AR URL - you can customize this
+    const arUrl = "https://anandsgunti.github.io/AREXP/";
+    if (onArIntegration) {
+      onArIntegration(arUrl);
+    }
+  };
+
   // Clear messages and return to empty state
   const handleBackToPrompts = () => {
     setMessages([]);
@@ -166,7 +179,10 @@ export const Chatbot: React.FC = () => {
         onClick={handleChatAreaClick}
       >
         {messages.length === 0 ? (
-          <EmptyState onPromptSelect={handlePromptSelect} />
+          <EmptyState 
+            onPromptSelect={handlePromptSelect} 
+            onArIntegration={handleArIntegration}
+          />
         ) : (
           <div className="p-4 space-y-6 max-w-4xl mx-auto">
             {messages.map(msg => (
