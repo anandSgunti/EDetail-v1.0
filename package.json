@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://anandsgunti.github.io/EDetail-v1.0/",
+  "homepage": "https://edetail.mednethealth.ai",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
