@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: '/EDetail-v1.0/', // Always use this for GitHub Pages
+  base: '/', // Always use this for GitHub Pages
   optimizeDeps: {
     exclude: ['lucide-react'],
   },
