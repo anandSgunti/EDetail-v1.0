@@ -1,4 +1,15 @@
 {
+  "auth": {
+    "identityProviders": {
+      "azureActiveDirectory": {
+        "registration": {
+          "clientIdSettingName": "App",
+          "clientCredentialSecretSettingName": "secret",
+          "tenantId": "Tenant"
+        }
+      }
+    }
+  },
   "routes": [
     {
       "route": "/*",
